@@ -1,9 +1,19 @@
-version : "3.5"
+version : "3"
 services:
   node-app:
-    container_name: express-node-app-container
-    ports:
-      - "4000:4000"
+    image: msoliman50/tresmerge-docker
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+    depends_on :
+      - redis
+  redis:
+    image: redis
   nginx:
     image: nginx:stable-alpine
     ports:
